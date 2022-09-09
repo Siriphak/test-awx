@@ -1,5 +1,2 @@
-[webservers]
-web3
-
-[dbservers]
-web2
+[local test]
+local
