@@ -1,0 +1,4 @@
+- name: Checked cramfs tasks
+  import_tasks: cramfs-checked.yml
+- name: Checked jffs2 tasks
+  import_tasks: jffs2-checked.yml

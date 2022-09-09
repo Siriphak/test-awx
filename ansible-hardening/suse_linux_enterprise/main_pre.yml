@@ -1,0 +1,7 @@
+# main
+---
+- import_playbook: server-ini.yml
+- import_playbook: pre-req.yml
+- import_playbook: pre-checked.yml
+# - import_playbook: execute.yml
+# - import_playbook: post-checked.yml

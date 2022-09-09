@@ -1,0 +1,4 @@
+- name: Disabled cramfs tasks
+  import_tasks: cramfs-disabled.yml
+- name: Disabled jffs2 tasks
+  import_tasks: jffs2-disabled.yml

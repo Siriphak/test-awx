@@ -1,0 +1,38 @@
+- name: 3.2 Ensure CONNECT permissions on the 'guest' user is Revoked within all SQL Server databases excluding the master, msdb and tempdb
+  win_shell: "invoke-sqlcmd -ServerInstance {{ ansible_hostname }} -Query \"SELECT DB_NAME() AS DatabaseName, 'guest' AS Database_User,
+[permission_name], [state_desc]
+FROM sys.database_permissions
+WHERE [grantee_principal_id] = DATABASE_PRINCIPAL_ID('guest')
+AND [state_desc] LIKE 'GRANT%'
+AND [permission_name] = 'CONNECT'
+AND DB_NAME() NOT IN ('master','tempdb','msdb');\" "
+  register: result_32
+
+- set_fact:
+    ids: "{{ result_32}}"
+- debug:
+        var: ansible_hostname
+- debug:
+        var: ids
+- debug:
+        var: ids.stdout
+
+- name: Check Condition
+  set_fact:
+    resultCheck32: "{{ ids.stdout is none}}"
+- debug:
+    var: resultCheck32
+
+- debug:
+        var: ansible_ip_addresses[0]
+- name: Modules Write log file
+  import_tasks: ../../../../modules/logs.yml
+  vars:
+    timestamp: "{{ ansible_date_time.iso8601 }}"
+    destination_ip: "{{ ansible_ip_addresses[0] }}"
+    playbook_type: "{{ PLAYBOOK_NAME }}"
+    section_control_hardening: "Secure Boot Settings"
+    task_number_control_hardening: "3.2"
+    task_control_hardening: "Ensure CONNECT permissions on the 'guest' user is Revoked within all SQL Server databases excluding the master, msdb and tempdb"
+    result_flag: "{{ resultCheck32 }}"
+    remark: ""

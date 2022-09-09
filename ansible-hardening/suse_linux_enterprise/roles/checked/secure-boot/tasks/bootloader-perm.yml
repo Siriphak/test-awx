@@ -1,0 +1,49 @@
+---
+- name: Find grub.cfg
+  find: 
+    paths: /boot/grub2
+    file_type: file
+    recurse: yes
+    patterns: ['grub.cfg']
+  register: fileListGrub
+# - debug: msg="{{ fileListGrub.files[0].mode }}" 
+# - debug: msg="{{ fileListGrub.files[0].pw_name }}" 
+# - debug: msg="{{ fileListGrub.files[0].gr_name }}" 
+- name: Check Condition
+  set_fact:
+    resultOwnerFileListGrub: "{{ fileListGrub.files[0].pw_name == 'root' and fileListGrub.files[0].gr_name == 'root' }}"
+    resultModeFileListGrub: "{{ fileListGrub.files[0].mode == '0600' }}"
+# - name: Write log file [grub.cfg] (chown)
+#   lineinfile:
+#      line: "{{ ansible_default_ipv4.address }}|Secure Boot Settings|Ensure permissions on bootloader config are configured (chown)|{{ resultOwnerFileListGrub }}|{{ fileListGrub.files[0].pw_name }}:{{ fileListGrub.files[0].gr_name }}"
+#      insertafter: EOF
+#      dest: "{{ path_file_pre_check }}/{{ filename_checked }}"
+#   delegate_to: 127.0.0.1
+# - name: Write log file [grub.cfg] (chmod)
+#   lineinfile:
+#      line: "{{ ansible_default_ipv4.address }}|Secure Boot Settings|Ensure permissions on bootloader config are configured (chmod)|{{ resultModeFileListGrub }}|{{ fileListGrub.files[0].mode }}"
+#      insertafter: EOF
+#      dest: "{{ path_file_pre_check }}/{{ filename_checked }}"
+#   delegate_to: 127.0.0.1
+- name: Modules Write log file [grub.cfg] (chown)
+  import_tasks: ../../../../modules/logs.yml
+  vars:
+    timestamp: "{{ ansible_date_time.iso8601 }}"
+    destination_ip: "{{ ansible_default_ipv4.address }}"
+    playbook_type: "{{ PLAYBOOK_NAME }}"
+    section_control_hardening: "Secure Boot Settings"
+    task_number_control_hardening: "2.1"
+    task_control_hardening: "Ensure permissions on bootloader config are configured (chown)"
+    result_flag: "{{ resultOwnerFileListGrub }}"
+    remark: "{{ fileListGrub.files[0].pw_name }}:{{ fileListGrub.files[0].gr_name }}"
+- name: Modules Write log file [grub.cfg] (chmod)
+  import_tasks: ../../../../modules/logs.yml
+  vars:
+    timestamp: "{{ ansible_date_time.iso8601 }}"
+    destination_ip: "{{ ansible_default_ipv4.address }}"
+    playbook_type: "{{ PLAYBOOK_NAME }}"
+    section_control_hardening: "Secure Boot Settings"
+    task_number_control_hardening: "2.2"
+    task_control_hardening: "Ensure permissions on bootloader config are configured (chmod)"
+    result_flag: "{{ resultModeFileListGrub }}"
+    remark: "{{ fileListGrub.files[0].mode }}"

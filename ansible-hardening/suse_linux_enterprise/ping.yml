@@ -1,0 +1,7 @@
+- hosts: hardening_servers  
+  tasks:
+    - name: Ping Server
+      ping:
+      register: ping_output
+    - debug:
+              var: ping_output.ping

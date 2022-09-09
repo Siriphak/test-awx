@@ -1,0 +1,5 @@
+---
+ansible_user: ec2-user
+ansible_python_interpreter: /usr/bin/python3
+aws_region: ap-southeast-1
+aws_ec2_keypair_file: /home/ec2-user/.ssh/demo-keypair.pem

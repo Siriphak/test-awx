@@ -1,0 +1,13 @@
+---
+# - name: "Check jffs2 disabled"
+#   stat:
+#     path: "/etc/modprobe.d/60-blacklist_fs-jffs2.conf"
+#   register: jffs2Exists
+# - debug:
+#           var: jffs2Exists.stat.exists
+# # - name: "Do something if path exists"
+# #   command: ...
+# #   when: result.stat.exists
+- name: "Config jffs2 disabled"
+  shell: "echo blacklist jffs2 > /etc/modprobe.d/60-blacklist_fs-jffs2.conf"
+  # when: not jffs2Exists.stat.exists

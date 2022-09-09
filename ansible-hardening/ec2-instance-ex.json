@@ -1,0 +1,147 @@
+{
+    "ec2_info.instances": [
+        {
+            "ami_launch_index": 0,
+            "architecture": "x86_64",
+            "block_device_mappings": [
+                {
+                    "device_name": "/dev/sda1",
+                    "ebs": {
+                        "attach_time": "2022-08-29T03:36:44+00:00",
+                        "delete_on_termination": true,
+                        "status": "attached",
+                        "volume_id": "vol-0b72557e500e7bca7"
+                    }
+                }
+            ],
+            "capacity_reservation_specification": {
+                "capacity_reservation_preference": "open"
+            },
+            "client_token": "62B51FFE-A064-494F-B7C4-861DE4A29071",
+            "cpu_options": {
+                "core_count": 2,
+                "threads_per_core": 2
+            },
+            "ebs_optimized": false,
+            "ena_support": true,
+            "enclave_options": {
+                "enabled": false
+            },
+            "hibernation_options": {
+                "configured": false
+            },
+            "hypervisor": "xen",
+            "iam_instance_profile": {
+                "arn": "arn:aws:iam::703123520617:instance-profile/EC2-Role",
+                "id": "AIPA2HNLNPRU4OIS5M52Q"
+            },
+            "image_id": "ami-0f63c86c66528251b",
+            "instance_id": "i-05d5ce4f910c10535",
+            "instance_type": "t3.xlarge",
+            "key_name": "demo-keypair",
+            "launch_time": "2022-08-29T03:36:43+00:00",
+            "maintenance_options": {
+                "auto_recovery": "default"
+            },
+            "metadata_options": {
+                "http_endpoint": "enabled",
+                "http_protocol_ipv6": "disabled",
+                "http_put_response_hop_limit": 1,
+                "http_tokens": "optional",
+                "instance_metadata_tags": "disabled",
+                "state": "applied"
+            },
+            "monitoring": {
+                "state": "disabled"
+            },
+            "network_interfaces": [
+                {
+                    "association": {
+                        "ip_owner_id": "amazon",
+                        "public_dns_name": "ec2-3-0-209-160.ap-southeast-1.compute.amazonaws.com",
+                        "public_ip": "3.0.209.160"
+                    },
+                    "attachment": {
+                        "attach_time": "2022-08-29T03:36:43+00:00",
+                        "attachment_id": "eni-attach-0d763b819b17aa874",
+                        "delete_on_termination": true,
+                        "device_index": 0,
+                        "network_card_index": 0,
+                        "status": "attached"
+                    },
+                    "description": "",
+                    "groups": [
+                        {
+                            "group_id": "sg-0beb1f3096659ce77",
+                            "group_name": "default-linux-sg"
+                        }
+                    ],
+                    "interface_type": "interface",
+                    "ipv6_addresses": [],
+                    "mac_address": "0a:af:b6:fa:9c:0e",
+                    "network_interface_id": "eni-0b6cb07b186b8cd6a",
+                    "owner_id": "703123520617",
+                    "private_dns_name": "ip-172-31-4-25.ap-southeast-1.compute.internal",
+                    "private_ip_address": "172.31.4.25",
+                    "private_ip_addresses": [
+                        {
+                            "association": {
+                                "ip_owner_id": "amazon",
+                                "public_dns_name": "ec2-3-0-209-160.ap-southeast-1.compute.amazonaws.com",
+                                "public_ip": "3.0.209.160"
+                            },
+                            "primary": true,
+                            "private_dns_name": "ip-172-31-4-25.ap-southeast-1.compute.internal",
+                            "private_ip_address": "172.31.4.25"
+                        }
+                    ],
+                    "source_dest_check": true,
+                    "status": "in-use",
+                    "subnet_id": "subnet-051924e70b361373c",
+                    "vpc_id": "vpc-0fe28d0e7d89d44f6"
+                }
+            ],
+            "placement": {
+                "availability_zone": "ap-southeast-1c",
+                "group_name": "",
+                "tenancy": "default"
+            },
+            "platform": "windows",
+            "platform_details": "Windows with SQL Server Standard",
+            "private_dns_name": "ip-172-31-4-25.ap-southeast-1.compute.internal",
+            "private_dns_name_options": {
+                "enable_resource_name_dns_a_record": false,
+                "enable_resource_name_dns_aaaa_record": false,
+                "hostname_type": "ip-name"
+            },
+            "private_ip_address": "172.31.4.25",
+            "product_codes": [],
+            "public_dns_name": "ec2-3-0-209-160.ap-southeast-1.compute.amazonaws.com",
+            "public_ip_address": "3.0.209.160",
+            "root_device_name": "/dev/sda1",
+            "root_device_type": "ebs",
+            "security_groups": [
+                {
+                    "group_id": "sg-0beb1f3096659ce77",
+                    "group_name": "default-linux-sg"
+                }
+            ],
+            "source_dest_check": true,
+            "state": {
+                "code": 16,
+                "name": "running"
+            },
+            "state_transition_reason": "",
+            "subnet_id": "subnet-051924e70b361373c",
+            "tags": {
+                "Environment": "poc",
+                "Name": "windows-server-poc",
+                "Project": "windows-server"
+            },
+            "usage_operation": "RunInstances:0006",
+            "usage_operation_update_time": "2022-08-29T03:36:43+00:00",
+            "virtualization_type": "hvm",
+            "vpc_id": "vpc-0fe28d0e7d89d44f6"
+        }
+    ]
+}

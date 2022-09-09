@@ -1,0 +1,36 @@
+- name: 3.9 Ensure Windows BUILTIN groups are not SQL Logins
+  win_shell: "invoke-sqlcmd -ServerInstance {{ ansible_hostname }} -Query \"SELECT pr.[name], pe.[permission_name], pe.[state_desc]
+FROM sys.server_principals pr
+JOIN sys.server_permissions pe
+ON pr.principal_id = pe.grantee_principal_id
+WHERE pr.name like 'BUILTIN%';\" "
+  register: result_39
+
+- set_fact:
+    ids: "{{ result_39}}"
+- debug:
+        var: ansible_hostname
+- debug:
+        var: ids
+- debug:
+        var: ids.stdout
+
+- name: Check Condition
+  set_fact:
+    resultCheck39: "{{ ids.stdout is none}}"
+- debug:
+    var: resultCheck39
+- debug:
+        var: ansible_ip_addresses[0]
+
+- name: Modules Write log file
+  import_tasks: ../../../../modules/logs.yml
+  vars:
+    timestamp: "{{ ansible_date_time.iso8601 }}"
+    destination_ip: "{{ ansible_ip_addresses[0] }}"
+    playbook_type: "{{ PLAYBOOK_NAME }}"
+    section_control_hardening: "Secure Boot Settings"
+    task_number_control_hardening: "3.9"
+    task_control_hardening: "Ensure Windows BUILTIN groups are not SQL Logins"
+    result_flag: "{{ resultCheck39 }}"
+    remark: ""

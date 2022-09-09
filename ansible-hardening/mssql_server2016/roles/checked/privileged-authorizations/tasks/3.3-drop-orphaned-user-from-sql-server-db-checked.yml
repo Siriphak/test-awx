@@ -1,0 +1,32 @@
+- name: 3.3 Ensure 'Orphaned Users' are Dropped From SQL Server Databases
+  win_shell: "invoke-sqlcmd -ServerInstance {{ ansible_hostname }} -Query \"EXEC sp_change_users_login @Action='Report';\" "
+  register: result_33
+
+- set_fact:
+    ids: "{{ result_33}}"
+- debug:
+        var: ansible_hostname
+- debug:
+        var: ids
+- debug:
+        var: ids.stdout
+
+- name: Check Condition
+  set_fact:
+    resultCheck33: "{{ ids.stdout is none}}"
+- debug:
+    var: resultCheck33
+- debug:
+        var: ansible_ip_addresses[0]
+        
+- name: Modules Write log file
+  import_tasks: ../../../../modules/logs.yml
+  vars:
+    timestamp: "{{ ansible_date_time.iso8601 }}"
+    destination_ip: "{{ ansible_ip_addresses[0] }}"
+    playbook_type: "{{ PLAYBOOK_NAME }}"
+    section_control_hardening: "Secure Boot Settings"
+    task_number_control_hardening: "3.3"
+    task_control_hardening: "Ensure 'Orphaned Users' are Dropped From SQL Server Databases"
+    result_flag: "{{ resultCheck33 }}"
+    remark: ""

@@ -1,0 +1,7 @@
+---
+- hosts: hardening_servers
+  vars:
+    filename_checked: pre-checked.csv
+  roles:
+    - role: checked/system-settings
+    - role: checked/privileged-authorizations

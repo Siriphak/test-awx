@@ -1,0 +1,20 @@
+# - name: 2.13 Ensure the 'sa' Login Account is set to 'Disabled'
+#   import_tasks: 2.13-disable-sa-checked.yml
+
+# - name: 2.14 Ensure the 'sa' Login Account has been renamed
+#   import_tasks: 2.14-sa-rename-checked.yml
+  
+# - name: 3.2 Ensure CONNECT permissions on the 'guest' user is Revoked within all SQL Server databases excluding the master, msdb and tempdb
+#   import_tasks: 3.2-revoke-connect-permission-on-guest-user-checked.yml
+
+# - name: 3.3 Ensure 'Orphaned Users' are Dropped From SQL Server Databases
+#   import_tasks: 3.3-drop-orphaned-user-from-sql-server-db-checked.yml
+
+# - name: 3.4 Ensure SQL Authentication is not used in contained databases
+#   import_tasks: 3.4-sql-authentication-not-used-in-contained-databases-checked.yml
+
+# - name: 3.8 Ensure only the default permissions specified by Microsoft are granted to the public server role
+#   import_tasks: 3.8-only-default-permission-granted-to-oublic-server-role-checked.yml
+
+# - name: 3.9 Ensure Windows BUILTIN groups are not SQL Logins
+#   import_tasks: 3.9-windoes-buildin-groups-not-logins-checked.yml

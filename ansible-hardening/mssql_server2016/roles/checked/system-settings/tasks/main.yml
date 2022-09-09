@@ -1,0 +1,14 @@
+# - name: 1.1 Ensure Latest SQL Server Service Packs and Hotfixes are Installed
+#   import_tasks: sql-latest-version-checked.yml
+
+- name: 2.15 Ensure 'xp_cmdshell' Server Configuration Option is set to '0'
+  import_tasks: 2.15-server-congiguration-option-set-0-checked.yml
+
+- name: 2.16 Ensure 'AUTO_CLOSE' is set to 'OFF' on contained databases   
+  import_tasks: 2.16-set-auto-close-to-off-checked.yml
+
+- name: 2.17 Ensure no login exists with the name 'sa'   
+  import_tasks: 2.17-no-login-exists-with-name-sa-checked.yml
+  
+# - name: test echo
+#   import_tasks: test.yml

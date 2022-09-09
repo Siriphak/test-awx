@@ -1,0 +1,3 @@
+---
+PLAYBOOK_NAME: SUSE Linux Enterprise 15
+path_file_pre_check: /home/ec2-user/log

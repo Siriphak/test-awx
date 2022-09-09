@@ -1,0 +1,2 @@
+- name: Ensure permissions on bootloader config are configured
+  import_tasks: bootloader-perm.yml

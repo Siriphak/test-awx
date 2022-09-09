@@ -1,0 +1,48 @@
+- name: 2.15 Ensure 'xp_cmdshell' Server Configuration Option is set to '0'
+  win_shell: "invoke-sqlcmd -ServerInstance {{ ansible_hostname }} -Query \"SELECT name,
+    CAST(value as int) as value_configured,
+    CAST(value_in_use as int) as value_in_use
+    FROM sys.configurations
+    WHERE name = 'xp_cmdshell';\"| ConvertTo-Json"
+  register: result_215
+
+- set_fact:
+    ids: "{{ result_215.stdout|from_json}}"
+- debug:
+        var: ansible_hostname
+- debug:
+        var: ids
+- debug:
+        var: ids.name
+- debug:
+        var: ids.value_configured
+- debug:
+        var: ids.value_in_use
+- name: Check Condition
+  set_fact:
+    resultCheck215: "{{ ids.value_configured == '0' and ids.value_in_use == '0' }}"
+- debug:
+    var: resultCheck215
+- debug:
+        var: ansible_ip_addresses[0]
+
+- name: Modules Write log file
+  import_tasks: ../../../../modules/logs.yml
+  vars:
+    timestamp: "{{ ansible_date_time.iso8601 }}"
+    destination_ip: "{{ ansible_ip_addresses[0] }}"
+    playbook_type: "{{ PLAYBOOK_NAME }}"
+    section_control_hardening: "Secure Boot Settings"
+    task_number_control_hardening: "2.15"
+    task_control_hardening: "Ensure 'xp_cmdshell' Server Configuration Option is set to '0'"
+    result_flag: "{{ resultCheck215 }}"
+    remark: ""
+
+# - name: Copy SQL files
+#   win_copy: 
+#     src: "../templates/2.15-server-configuration-option-set-0-checked.sql"
+#     dest: "C:\\2.15-server-configuration-option-set-0-checked.sql"
+#   register: db_sql_copyfile_state
+# - name: Task2
+#   win_command: "Invoke-Sqlcmd -InputFile "C:\\2.15-server-configuration-option-set-0-checked" | ConvertTo-Json"
+#   register: SQLresult

@@ -1,0 +1,8 @@
+---
+- hosts: hardening_servers
+  become: yes
+  vars:
+    filename_checked: pre-checked.csv
+  roles:
+    - role: checked/filesystem
+    - role: checked/secure-boot

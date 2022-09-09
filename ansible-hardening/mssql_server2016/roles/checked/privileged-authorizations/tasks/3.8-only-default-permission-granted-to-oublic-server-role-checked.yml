@@ -1,0 +1,45 @@
+- name: 3.8 Ensure only the default permissions specified by Microsoft are granted to the public server role
+  win_shell: "invoke-sqlcmd -ServerInstance {{ ansible_hostname }} -Query \"SELECT *
+FROM master.sys.server_permissions
+WHERE (grantee_principal_id = SUSER_SID(N'public') and state_desc LIKE
+'GRANT%')
+AND NOT (state_desc = 'GRANT' and [permission_name] = 'VIEW ANY DATABASE' and
+class_desc = 'SERVER')
+AND NOT (state_desc = 'GRANT' and [permission_name] = 'CONNECT' and
+class_desc = 'ENDPOINT' and major_id = 2)
+AND NOT (state_desc = 'GRANT' and [permission_name] = 'CONNECT' and
+class_desc = 'ENDPOINT' and major_id = 3)
+AND NOT (state_desc = 'GRANT' and [permission_name] = 'CONNECT' and
+class_desc = 'ENDPOINT' and major_id = 4)
+AND NOT (state_desc = 'GRANT' and [permission_name] = 'CONNECT' and
+class_desc = 'ENDPOINT' and major_id = 5);\" "
+  register: result_38
+
+- set_fact:
+    ids: "{{ result_38}}"
+- debug:
+        var: ansible_hostname
+- debug:
+        var: ids
+- debug:
+        var: ids.stdout
+
+- name: Check Condition
+  set_fact:
+    resultCheck38: "{{ ids.stdout is none}}"
+- debug:
+    var: resultCheck38
+- debug:
+    var: ansible_ip_addresses[0]
+
+- name: Modules Write log file
+  import_tasks: ../../../../modules/logs.yml
+  vars:
+    timestamp: "{{ ansible_date_time.iso8601 }}"
+    destination_ip: "{{ ansible_ip_addresses[0] }}"
+    playbook_type: "{{ PLAYBOOK_NAME }}"
+    section_control_hardening: "Secure Boot Settings"
+    task_number_control_hardening: "3.8"
+    task_control_hardening: "Ensure only the default permissions specified by Microsoft are granted to the public server role"
+    result_flag: "{{ resultCheck38 }}"
+    remark: ""

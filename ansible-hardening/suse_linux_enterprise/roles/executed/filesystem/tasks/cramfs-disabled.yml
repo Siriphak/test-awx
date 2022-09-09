@@ -1,0 +1,13 @@
+---
+# - name: "Check cramfs disabled"
+#   stat:
+#     path: "/etc/modprobe.d/60-blacklist_fs-cramfs.conf"
+#   register: cramfsExists
+# - debug:
+#           var: cramfsExists.stat.exists
+# # - name: "Do something if path exists"
+# #   command: ...
+# #   when: result.stat.exists
+- name: "Config cramfs disabled"
+  shell: "echo blacklist cramfs > /etc/modprobe.d/60-blacklist_fs-cramfs.conf"
+  # when: not cramfsExists.stat.exists

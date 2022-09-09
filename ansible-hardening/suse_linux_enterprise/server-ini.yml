@@ -1,0 +1,14 @@
+---
+- hosts: local
+  tasks:
+    - name: EC2 Instance Info 
+      ec2_instance_info:
+        filters:
+          "tag:Project": "hardening"
+      register: ec2_info
+    - name: Add instances to inventories
+      add_host:
+        name: '{{ item }}'
+        groups:
+          - hardening_servers
+      loop: "{{ ec2_info.instances | default([]) | json_query('[].private_ip_address') }}"

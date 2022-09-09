@@ -1,0 +1,38 @@
+---
+- hosts: local
+  tasks:
+    - name: EC2 Instance Info 
+      ec2_instance_info:
+        filters:
+          "tag:Project": "windows-server"
+      register: ec2_info
+    - name: Get password from instances
+      #TODO: Path of keyapir
+      shell: "aws ec2 get-password-data --instance-id {{ item }} --region {{ aws_region }} --priv-launch-key {{ aws_ec2_keypair_file }} | jq -r .PasswordData"
+      # environment: "{{ aws_environment }}"
+      # Community AWS Plugin
+      # loop: "{{ ec2_instances_info.instances | default([]) | json_query('[].instance_id') }}"
+      # Amazon AWS Plugin
+      loop: "{{ ec2_info.instances | default([]) | json_query('[].instance_id') }}"
+      register: ec2_instances_passwd
+    - debug:
+          var: ec2_info.instances | default([]) | json_query('[].instance_id')
+    - debug:
+          var: ec2_instances_passwd
+    - name: Transform instances password to dict for easy access
+      set_fact: "ec2_instances_passwd_dict={{ ec2_instances_passwd_dict | default({}) | combine({item: ec2_instances_passwd['results'][idx].stdout}) }}"
+      # Community AWS Plugin
+      # loop: "{{ ec2_instances_info.instances | default([]) | json_query('[].network_interfaces[0].private_ip_address') }}"
+      # Amazon AWS Plugin
+      loop: "{{ ec2_info.instances | default([]) | json_query('[].private_ip_address') }}"
+      loop_control:
+        index_var: idx
+    - name: Add instances to inventories
+      add_host:
+        name: '{{ item }}'
+        groups:
+          - hardening_servers
+        ansible_user: Administrator
+        ansible_password: "{{ aws_ec2_role_password['hardening_servers'] | default(ec2_instances_passwd_dict[item], true) }}"
+        ansible_winrm_transport: ntlm
+      loop: "{{ ec2_info.instances | default([]) | json_query('[].private_ip_address') }}"

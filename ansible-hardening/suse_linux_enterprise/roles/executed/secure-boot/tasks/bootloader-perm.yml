@@ -1,0 +1,4 @@
+- name: "Change owner grub.cfg to root"
+  shell: "chown root:root /boot/grub2/grub.cfg"
+- name: "Change mode grub.cfg to 0600"
+  shell: "chmod 0600 /boot/grub2/grub.cfg"

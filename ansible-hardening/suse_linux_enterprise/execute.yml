@@ -1,0 +1,6 @@
+---
+- hosts: hardening_servers
+  become: yes
+  roles:
+    - role: executed/filesystem
+    - role: executed/secure-boot

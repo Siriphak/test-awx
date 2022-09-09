@@ -1,0 +1,6 @@
+- name: Modules Write log file
+  lineinfile:
+     line: "{{ timestamp }},{{ destination_ip }},{{ playbook_type }},{{ section_control_hardening }},{{ task_number_control_hardening }},{{ task_control_hardening }},{{ result_flag }},{{ remark }}"
+     insertafter: EOF
+     dest: "{{ path_file_pre_check }}/{{ filename_checked }}"
+  delegate_to: 127.0.0.1

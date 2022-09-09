@@ -1,0 +1,21 @@
+---
+- hosts: local
+  tasks:
+    - name: Remove file pre_checked(delete file)
+      ansible.builtin.file:
+        path: "{{ path_file_pre_check }}/pre-checked.csv"
+        state: absent
+    - name: Remove file post_checked(delete file)
+      ansible.builtin.file:
+        path: "{{ path_file_pre_check }}/post-checked.csv"
+        state: absent
+    - name: Create File pre_checked
+      ansible.builtin.file:
+        path: "{{ path_file_pre_check }}/pre-checked.csv"
+        state: touch
+        modification_time: preserve
+    - name: Create File post_checked
+      ansible.builtin.file:
+        path: "{{ path_file_pre_check }}/post-checked.csv"
+        state: touch
+        modification_time: preserve

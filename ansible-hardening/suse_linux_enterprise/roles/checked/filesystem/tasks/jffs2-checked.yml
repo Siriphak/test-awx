@@ -1,0 +1,25 @@
+---
+- name: "Check jffs2 disabled"
+  stat:
+    path: "/etc/modprobe.d/60-blacklist_fs-jffs2.conf"
+  register: jffs2Exists
+- debug:
+          var: jffs2Exists.stat.exists
+# - name: Write log file jffs2
+#   lineinfile:
+#      line: "{{ ansible_default_ipv4.address }}|Filesystem Configuration|Ensure mounting of jffs2 filesystems is disabled|{{ jffs2Exists.stat.exists }}|"
+#      insertafter: EOF
+#      dest: "{{ path_file_pre_check }}/{{ filename_checked }}"
+#   delegate_to: 127.0.0.1
+  # local_action: lineinfile line={{ jffs2Exists }} path=/home/ec2-user/log/pre-checked.txt
+- name: Modules Write log file
+  import_tasks: ../../../../modules/logs.yml
+  vars:
+    timestamp: "{{ ansible_date_time.iso8601 }}"
+    destination_ip: "{{ ansible_default_ipv4.address }}"
+    playbook_type: "{{ PLAYBOOK_NAME }}"
+    section_control_hardening: "Filesystem Configuration"
+    task_number_control_hardening: "1.2"
+    task_control_hardening: "Ensure mounting of jffs2 filesystems is disabled"
+    result_flag: "{{ jffs2Exists.stat.exists }}"
+    remark: "Test Log file reuse"

@@ -1,0 +1,55 @@
+---
+- hosts: local
+  tasks:
+    - name: Remove file pre_checked(delete file)
+      ansible.builtin.file:
+        path: "{{ path_file_pre_check }}/pre-checked.csv"
+        state: absent
+    - name: Remove file post_checked(delete file)
+      ansible.builtin.file:
+        path: "{{ path_file_pre_check }}/post-checked.csv"
+        state: absent
+    - name: Create File pre_checked
+      ansible.builtin.file:
+        path: "{{ path_file_pre_check }}/pre-checked.csv"
+        state: touch
+        modification_time: preserve
+    - name: Create File post_checked
+      ansible.builtin.file:
+        path: "{{ path_file_pre_check }}/post-checked.csv"
+        state: touch
+        modification_time: preserve
+    # - name: Write log file cramfs
+    #   lineinfile:
+    #     line: "SERVER_IP|GROUP_HARDENING|TASK_HARDENING|RESULT_FLAG|REMARK"
+    #     insertafter: EOF
+    #     dest: "{{ path_file_pre_check }}/pre-checked.csv"
+    #   delegate_to: 127.0.0.1
+    # - name: Write log file cramfs
+    #   lineinfile:
+    #     line: "SERVER_IP|GROUP_HARDENING|TASK_HARDENING|RESULT_FLAG|REMARK"
+    #     insertafter: EOF
+    #     dest: "{{ path_file_pre_check }}/post-checked.csv"
+    #   delegate_to: 127.0.0.1
+    # - name: Modules Write log file
+    #   import_tasks: modules/logs.yml
+    #   vars:
+    #     Playbook_Name: "PLAYBOOK_NAME"
+    #     Server_IP: "SERVER_IP"
+    #     Group_Hardening: "GROUP_HARDENING"
+    #     Task_No: "TASK_NO"
+    #     Task_Hardening: "TASK_HARDENING"
+    #     Result_flag: "RESULT_FLAG"
+    #     Remark: "REMARK"
+    #     filename_checked: "pre-checked.csv"
+    # - name: Modules Write log file
+    #   import_tasks: modules/logs.yml
+    #   vars:
+    #     Playbook_Name: "PLAYBOOK_NAME"
+    #     Server_IP: "SERVER_IP"
+    #     Group_Hardening: "GROUP_HARDENING"
+    #     Task_No: "TASK_NO"
+    #     Task_Hardening: "TASK_HARDENING"
+    #     Result_flag: "RESULT_FLAG"
+    #     Remark: "REMARK"
+    #     filename_checked: "post-checked.csv"
